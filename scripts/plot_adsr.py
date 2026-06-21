@@ -16,7 +16,7 @@ def generar_audio(nombre, adsr_params, eventos_sco):
         for ev in eventos_sco:
             f.write(f"{ev[0]}\t{ev[1]}\t{ev[2]}\t{ev[3]}\t{ev[4]}\n")
 
-    cmd = ["/home/cibber/PAV/bin/synth", orc_path, sco_path, wav_path]
+    cmd = ["wsl", "/home/cibber/PAV/bin/synth", orc_path, sco_path, wav_path]
     subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     return wav_path

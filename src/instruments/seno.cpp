@@ -59,14 +59,10 @@ const vector<float> & Seno::synthesize() {
 
   for (unsigned int i = 0; i < x.size(); ++i) {
     int indice_entero = (int)indice;
-    float fraccion = indice - indice_entero;
-    int siguiente_indice = indice_entero + 1;
-    if (siguiente_indice >= tbl.size()) {
-      siguiente_indice = 0;
-    }
-    
-    float valor_interpolado = tbl[indice_entero] + fraccion * (tbl[siguiente_indice] - tbl[indice_entero]);
-    x[i] = amplitud * valor_interpolado;
+    float delta = indice - indice_entero;
+    int tamano = tbl.size();
+    float valor = tbl[indice_entero] * (1.0f - delta) + tbl[(indice_entero + 1) % tamano] * delta;
+    x[i] = amplitud * valor;
     
     indice += paso;
     while (indice >= tbl.size()) {

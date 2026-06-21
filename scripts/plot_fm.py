@@ -16,7 +16,7 @@ def generar_audio(nombre, params, eventos_sco):
         for ev in eventos_sco:
             f.write(f"{ev[0]}\t{ev[1]}\t{ev[2]}\t{ev[3]}\t{ev[4]}\n")
 
-    cmd = ["/home/cibber/PAV/bin/synth", orc_path, sco_path, wav_path]
+    cmd = ["wsl", "/home/cibber/PAV/bin/synth", orc_path, sco_path, wav_path]
     subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     return wav_path
@@ -49,6 +49,8 @@ def main():
     ax.set_title("Efecto Vibrato usando Síntesis FM (N1=1.0, N2=0.02, I=0.5)")
     ax.set_xlabel("Tiempo (s)")
     ax.set_ylabel("Amplitud")
+    ax.set_xlim(0, 0.05)
+    ax.legend()
     
     # Zoom para mostrar que la frecuencia varia (opcional, pero se aprecia visualmente la envolvente densa)
     ax.grid(True)

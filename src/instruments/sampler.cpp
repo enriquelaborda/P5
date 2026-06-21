@@ -12,15 +12,15 @@ Sampler::Sampler(const std::string &parametros)
   x.resize(BSIZE);
 
   KeyValue kv(parametros);
-  string ruta_archivo;
+  string archivo;
   
-  ruta_archivo = kv("fichero");
-  if (ruta_archivo == "") {
-    ruta_archivo = "default.wav";
+  archivo = kv("fichero");
+  if (archivo == "") {
+    archivo = "default.wav";
   }
 
   unsigned int frecuencia_muestreo;
-  if (readwav_mono(ruta_archivo, frecuencia_muestreo, memoria) < 0) {
+  if (readwav_mono(archivo, frecuencia_muestreo, memoria) < 0) {
     memoria.resize(1);
     memoria[0] = 0.0f;
   }
@@ -62,8 +62,8 @@ const vector<float> & Sampler::synthesize() {
       x[i] = 0;
     } else {
       int indice_entero = (int)indice;
-      float fraccion = indice - indice_entero;
-      float valor = memoria[indice_entero] + fraccion * (memoria[indice_entero + 1] - memoria[indice_entero]);
+      float delta = indice - indice_entero;
+      float valor = memoria[indice_entero] * (1.0f - delta) + memoria[(indice_entero + 1)] * delta;
       x[i] = amplitud * valor;
       indice += paso;
     }
